@@ -2,52 +2,13 @@ import React, { useState } from 'react'
 import './App.css'
 import Habit, { HabitProps, Timeframe } from './components/Habit'
 import styled from 'styled-components'
-
-const tasks: HabitProps[] = [
-  {
-    name: "Write a blog post",
-    description: "",
-    goal: 1,
-    timeframe: "week"
-  },
-  {
-    name: "Take a walk",
-    description: "",
-    goal: 3,
-    timeframe: "week"
-  },
-  {
-    name: "Fix my bed",
-    description: "",
-    goal: 1,
-    timeframe: "day"
-  },
-  {
-    name: "Cook a healthy meal",
-    description: "",
-    goal: 3,
-    timeframe: "week"
-  },
-  {
-    name: "Read for 20 mins",
-    description: "",
-    goal: 1,
-    timeframe: "day"
-  },
-  {
-    name: "Visit parents",
-    description: "",
-    goal: 1,
-    timeframe: "month"
-  }
-]
+import { tasks } from './sampleData'
 
 function returnFalseIfEmpty(array: Array<any>) {
   if (array.length === 0) return false
 
   return array
 }
-
 
 
 function App() {

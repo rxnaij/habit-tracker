@@ -1,15 +1,9 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import React, { useState } from 'react'
 import './App.css'
+import Habit, { HabitProps, Timeframe } from './components/Habit'
+import styled from 'styled-components'
 
-interface TodoProps {
-  name: string
-  description: string
-  goal: number
-  timeframe: "day" | "week" | "month" | "year"
-}
-
-const tasks: TodoProps[] = [
+const tasks: HabitProps[] = [
   {
     name: "Write a blog post",
     description: "",
@@ -39,58 +33,148 @@ const tasks: TodoProps[] = [
     description: "",
     goal: 1,
     timeframe: "day"
+  },
+  {
+    name: "Visit parents",
+    description: "",
+    goal: 1,
+    timeframe: "month"
   }
 ]
 
-const Todo = ({ name, goal, description, timeframe }: TodoProps) => {
-  const [current, setCurrent] = useState(0)
-  return(
-    <div>
-      <div>
-        { name }
-      </div>
-      <div>
-        { current } / { goal }
-      </div>
-      <div>
-        <button onClick={() => {setCurrent(prev => prev > 0 && prev - 1)}}>-</button>
-        <button onClick={() => {setCurrent(prev => prev + 1)}}>+</button>
-      </div>
-    </div>
-  )
+function returnFalseIfEmpty(array: Array<any>) {
+  if (array.length === 0) return false
+
+  return array
 }
 
+
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [createModalIsVisible, setCreateModalIsVisible] = useState(false)
+  const [habits, setHabits] = useState<HabitProps[]>(tasks)
 
   return (
     <div className="App">
       <h2>Today</h2>
       {
-        tasks.filter(task => task.timeframe === "day")
-          .map(task => <Todo {...task} />)
-        || "No tasks"
+        returnFalseIfEmpty(habits.filter(item => item.timeframe === "day")
+          .map(item => <Habit {...item} key={item.name} />))
+        || "No habits"
       }
       <h2>Week</h2>
       {
-        tasks.filter(task => task.timeframe === "week")
-          .map(task => <Todo {...task} />)
-       || "No tasks" 
+        returnFalseIfEmpty(habits.filter(item => item.timeframe === "week")
+          .map(item => <Habit {...item} key={item.name} />))
+       || "No habits" 
       }
       <h2>Month</h2>
       {
-        tasks.filter(task => task.timeframe === "month")
-          .map(task => <Todo {...task} />)
-       || "No tasks" 
+        returnFalseIfEmpty(habits.filter(item => item.timeframe === "month")
+          .map(item => <Habit {...item} key={item.name} />))
+       || "No habits" 
       }
       <h2>Year</h2>
       {
-        tasks.filter(task => task.timeframe === "year")
-          .map(task => <Todo {...task} />)
-       || "No tasks" 
+        returnFalseIfEmpty(habits.filter(item => item.timeframe === "year")
+          .map(item => <Habit {...item} key={item.name} />))
+       || "No habits" 
+      }
+      <hr />
+      <button onClick={() => setCreateModalIsVisible(true)}>Create new habit</button>
+      {
+        createModalIsVisible &&
+        <CreateHabitModal 
+          close={() => setCreateModalIsVisible(false)} 
+          createHabit={(habit: HabitProps) => { 
+            setHabits(prev => prev.concat(habit))
+          }} 
+        />
       }
     </div>
   )
 }
+
+interface CreateHabitModalProps {
+  close: () => void
+  createHabit: (habit: HabitProps) => void
+}
+
+function CreateHabitModal({ close, createHabit }: CreateHabitModalProps) {
+  const [name, setName] = useState<string>("")
+  const [description, setDescription] = useState("")
+  const [goal, setGoal] = useState(0)
+  const [frequency, setFrequency] = useState<Timeframe|null>(null)
+
+  return(
+    <CreateHabitModalWrapper>
+      <button onClick={close}>Close</button>
+      <h2>new habit</h2>
+      <label>
+        Name
+        <input type="text" value={name} onChange={e => {setName(e.target.value)}} />
+      </label>
+      <label>
+        Description
+        <input type="text" value={description} onChange={e => {setDescription(e.target.value)}}/>
+      </label>
+      <label>
+        Goal
+        <input type="number" step={1} value={goal} onChange={(e) => {setGoal(e.target.value!)}}/>
+      </label>
+      <fieldset>
+        Frequency
+        <label>
+          <input type="radio" name="frequency" id="create-habit-timeframe-radio-daily" onChange={() => setFrequency("day")}/>
+          Daily
+        </label>
+        <label>
+          <input type="radio" name="frequency" id="create-habit-timeframe-radio-weekly" onChange={() => setFrequency("week")} />
+          Weekly
+        </label>
+        <label>
+          <input type="radio" name="frequency" id="create-habit-timeframe-radio-monthly" onChange={() => setFrequency("month")} />
+          Monthly
+        </label>
+        <label>
+          <input type="radio" name="frequency" id="create-habit-timeframe-radio-yearly" onChange={() => setFrequency("year")} />
+          Yearly
+        </label>
+      </fieldset>
+      <button onClick={() => {
+        createHabit({
+          name,
+          description,
+          goal,
+          timeframe: frequency || "day"
+        })
+        close()
+      }}>Create habit</button>
+    </CreateHabitModalWrapper>
+  )
+}
+
+const CreateHabitModalWrapper = styled.div`
+  background-color: #000;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  padding: 0 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  label {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+`
 
 export default App

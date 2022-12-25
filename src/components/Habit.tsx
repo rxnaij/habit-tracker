@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useHabitState } from '../App'
 import styled from 'styled-components'
 
 const HabitWrapper = styled.div`
@@ -19,11 +20,18 @@ export interface HabitNode {
 }
 
 export interface HabitProps extends HabitNode {
-    remove: (habitName: string) => void
+
 }
 
-const Habit = ({ name, goal, description, timeframe, remove }: HabitProps) => {
+const Habit = ({ name, goal, description, timeframe }: HabitProps) => {
+  const { habits, setHabits } = useHabitState()
+
   const [current, setCurrent] = useState(0)
+
+  const remove = () => {
+    setHabits(prev => prev.filter(item => item.name !== name))
+  }
+
   return(
     <HabitWrapper>
       <div>
@@ -37,7 +45,7 @@ const Habit = ({ name, goal, description, timeframe, remove }: HabitProps) => {
         <button onClick={() => {setCurrent(current + 1)}}>+</button>
       </div>
       <div>
-        <button onClick={() => remove(name)}>Delete</button>
+        <button onClick={() => remove()}>Delete</button>
       </div>
     </HabitWrapper>
   )

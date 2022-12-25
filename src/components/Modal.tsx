@@ -5,17 +5,25 @@ import styled from "styled-components"
 
 interface CreateHabitModalProps {
     close: () => void
-    createHabit: (habit: HabitProps) => void
     remove: (habitName: string) => void
   }
   
- export function CreateHabitModal({ close, createHabit, remove }: CreateHabitModalProps) {
-    const { habits, setHabits } = useHabitState()
+ export function CreateHabitModal({ close, remove }: CreateHabitModalProps) {
+    const { setHabits } = useHabitState()
 
     const [name, setName] = useState<string>("")
     const [description, setDescription] = useState("")
     const [goal, setGoal] = useState(0)
     const [frequency, setFrequency] = useState<Timeframe | null>(null)
+
+    const createHabit = () => {
+        setHabits(prev => prev.concat({
+            name,
+            description,
+            goal,
+            timeframe: frequency || "day",
+        }))
+    }
   
     return (
       <CreateHabitModalWrapper>
@@ -53,13 +61,7 @@ interface CreateHabitModalProps {
           </label>
         </fieldset>
         <button onClick={() => {
-            setHabits(prev => prev.concat({
-                name,
-                description,
-                goal,
-                timeframe: frequency || "day",
-                remove
-            }))
+            createHabit()
             close()
         }}>
             Create habit

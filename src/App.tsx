@@ -19,6 +19,7 @@ interface HabitState {
 
 const HabitStateContext = createContext<HabitState>(null!)
 
+// Helper function
 export function useHabitState() {
   return useContext(HabitStateContext)
 }
@@ -65,9 +66,6 @@ function App() {
           createModalIsVisible &&
           <CreateHabitModal
             close={() => setCreateModalIsVisible(false)}
-            createHabit={(habit: HabitProps) => {
-              setHabits(prev => prev.concat(habit))
-            }}
             remove={removeHabitHandler}
           />
         }

@@ -5,12 +5,6 @@ import styled from 'styled-components'
 import { CreateHabitModal, EditHabitModal } from './components/Modal'
 import { tasks } from './sampleData'
 
-function returnFalseIfEmpty(array: Array<any>) {
-  if (array.length === 0) return false
-
-  return array
-}
-
 /* State context */
 interface HabitState {
   habits: Array<HabitProps>
@@ -29,44 +23,19 @@ function App() {
   const [editModalIsVisible, setEditModalIsVisible] = useState(false)
   const [habits, setHabits] = useState<HabitProps[]>(tasks)
 
-  const removeHabitHandler = (habitName: string) => {
-    setHabits(habits.filter(item => item.name !== habitName))
-  }
-
   return (
     <HabitStateContext.Provider value={{ habits, setHabits }}>
       <div className="App" >
-        <h2>Today</h2>
-        {
-          returnFalseIfEmpty(habits.filter(item => item.timeframe === "day")
-            .map(item => <Habit {...item} key={item.name} remove={removeHabitHandler} />))
-          || "No habits"
-        }
-        <h2>Week</h2>
-        {
-          returnFalseIfEmpty(habits.filter(item => item.timeframe === "week")
-            .map(item => <Habit {...item} key={item.name} remove={removeHabitHandler} />))
-          || "No habits"
-        }
-        <h2>Month</h2>
-        {
-          returnFalseIfEmpty(habits.filter(item => item.timeframe === "month")
-            .map(item => <Habit {...item} key={item.name} remove={removeHabitHandler} />))
-          || "No habits"
-        }
-        <h2>Year</h2>
-        {
-          returnFalseIfEmpty(habits.filter(item => item.timeframe === "year")
-            .map(item => <Habit {...item} key={item.name} remove={removeHabitHandler} />))
-          || "No habits"
-        }
-        <hr />
         <button onClick={() => setCreateModalIsVisible(true)}>Create new habit</button>
+        <hr />
+        <Section title="Today" timeframe="day" />
+        <Section title="Weekly" timeframe="week" />
+        <Section title="Monthly" timeframe="month" />
+        <Section title="Yearly" timeframe="year" />
         {
           createModalIsVisible &&
           <CreateHabitModal
             close={() => setCreateModalIsVisible(false)}
-            remove={removeHabitHandler}
           />
         }
         {/* {
@@ -82,6 +51,30 @@ function App() {
   )
 }
 
+interface SectionProps {
+  title: string,
+  timeframe: string
+}
 
+const Section = ({ title, timeframe }: SectionProps) => {
+  const { habits } = useHabitState()
+
+  const sectionHabits = habits.filter(
+    item => item.timeframe === timeframe
+  ).map(
+    item => <Habit {...item} key={item.name} />
+  )
+
+  return (
+    <section>
+      <h2>{title}</h2>
+      {
+        sectionHabits.length > 0
+          ? sectionHabits
+          : "No habits"
+      }
+    </section>
+  )
+}
 
 export default App

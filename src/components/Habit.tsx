@@ -2,13 +2,6 @@ import { useState } from 'react'
 import { useHabitState } from '../App'
 import styled from 'styled-components'
 
-const HabitWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-`
-
 export type Timeframe = 
     "day" | "week" | "month" | "year"
 
@@ -50,5 +43,13 @@ const Habit = ({ name, goal, description, timeframe }: HabitProps) => {
     </HabitWrapper>
   )
 }
+
+
+const HabitWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+`
 
 export default Habit

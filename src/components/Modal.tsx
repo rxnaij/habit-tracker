@@ -5,10 +5,9 @@ import styled from "styled-components"
 
 interface CreateHabitModalProps {
     close: () => void
-    remove: (habitName: string) => void
   }
   
- export function CreateHabitModal({ close, remove }: CreateHabitModalProps) {
+ export function CreateHabitModal({ close }: CreateHabitModalProps) {
     const { setHabits } = useHabitState()
 
     const [name, setName] = useState<string>("")

@@ -95,9 +95,7 @@ interface CreateHabitModalProps {
   
   interface EditHabitModalProps {
     close: () => void
-    updateHabit: (habit: HabitProps) => void
-    remove: () => void,
-    habit: HabitNode
+    habitName: string
   }
   
   /**
@@ -105,15 +103,35 @@ interface CreateHabitModalProps {
    * Pre-populate with habit values
    * Provide option to cancel, submit, or delete
    */
-  export const EditHabitModal = ({ close, updateHabit, remove, habit }: EditHabitModalProps) => {
-    const [name, setName] = useState<string>(habit.name)
-    const [description, setDescription] = useState(habit.description)
-    const [goal, setGoal] = useState(habit.goal)
-    const [frequency, setFrequency] = useState<Timeframe>(habit.timeframe)
+  export const EditHabitModal = ({ close, habitName }: EditHabitModalProps) => {
+    const { habits, setHabits } = useHabitState()
+    const currentHabit = habits.find(result => result.name === habitName)
+    // Need error checking if current habit does not exist
+
+    const [name, setName] = useState(currentHabit!.name)
+    const [description, setDescription] = useState(currentHabit!.description)
+    const [goal, setGoal] = useState(currentHabit!.goal)
+    const [frequency, setFrequency] = useState<Timeframe | undefined>(currentHabit!.timeframe)
+
+    const handleUpdateHabit = () => {
+        setHabits(prev => {
+            const removeOriginal = prev.filter(item => item.name !== habitName)
+            return([
+                {
+                    name,
+                    description,
+                    goal,
+                    timeframe: frequency!
+                },
+                ...removeOriginal
+            ])
+        })
+    }
+
     return (
       <CreateHabitModalWrapper>
         <button onClick={close}>Close</button>
-        <h2>edit habit</h2>
+        <h2>edit habit: {habitName}</h2>
         <label>
           Name
           <input type="text" value={name} onChange={e => { setName(e.target.value) }} />
@@ -146,13 +164,7 @@ interface CreateHabitModalProps {
           </label>
         </fieldset>
         <button onClick={() => {
-          updateHabit({
-            name,
-            description,
-            goal,
-            timeframe: frequency,
-            remove
-          })
+          handleUpdateHabit()
           close()
         }}>Update habit</button>
       </CreateHabitModalWrapper>

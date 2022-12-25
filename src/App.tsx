@@ -38,14 +38,6 @@ function App() {
             close={() => setCreateModalIsVisible(false)}
           />
         }
-        {/* {
-        editModalIsVisible &&
-        <EditHabitModal
-          close={() => setEditModalIsVisible(false)}
-          updateHabit={(prevHabit: string, habit: HabitProps) => {
-            setHabits(prev => prev.find(item => item.name === prevHabit) = habit)
-          }}
-      } */}
       </div>
     </HabitStateContext.Provider>
   )

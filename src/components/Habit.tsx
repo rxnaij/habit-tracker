@@ -11,15 +11,18 @@ const HabitWrapper = styled.div`
 export type Timeframe = 
     "day" | "week" | "month" | "year"
 
-
-export interface HabitProps {
-    name: string
-    description: string
-    goal: number
-    timeframe: Timeframe
+export interface HabitNode {
+  name: string
+  description: string
+  goal: number
+  timeframe: Timeframe
 }
 
-const Habit = ({ name, goal, description, timeframe }: HabitProps) => {
+export interface HabitProps extends HabitNode {
+    remove: (habitName: string) => void
+}
+
+const Habit = ({ name, goal, description, timeframe, remove }: HabitProps) => {
   const [current, setCurrent] = useState(0)
   return(
     <HabitWrapper>
@@ -32,6 +35,9 @@ const Habit = ({ name, goal, description, timeframe }: HabitProps) => {
       <div>
         <button onClick={() => {if (current > 0) setCurrent(current - 1)}}>-</button>
         <button onClick={() => {setCurrent(current + 1)}}>+</button>
+      </div>
+      <div>
+        <button onClick={() => remove(name)}>Delete</button>
       </div>
     </HabitWrapper>
   )

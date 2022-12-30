@@ -23,10 +23,17 @@ function App() {
   const [editModalIsVisible, setEditModalIsVisible] = useState(false)
   const [habits, setHabits] = useState<HabitProps[]>(tasks)
 
+  // Current date stored at the top level
+  const today = new Date()
+  const [date, setDate] = useState<Date>(today)
+
+
   return (
     <HabitStateContext.Provider value={{ habits, setHabits }}>
       <div className="App" >
         <button onClick={() => setCreateModalIsVisible(true)}>Create new habit</button>
+        <hr />
+        <h2>Date: {date.toDateString()}</h2>
         <hr />
         <Section title="Today" timeframe="day" />
         <Section title="Weekly" timeframe="week" />
@@ -60,6 +67,9 @@ const Section = ({ title, timeframe }: SectionProps) => {
   return (
     <section>
       <h2>{title}</h2>
+      <div>
+        Habits completed: 
+      </div>
       {
         sectionHabits.length > 0
           ? sectionHabits

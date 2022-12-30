@@ -25,7 +25,7 @@ interface CreateHabitModalProps {
     }
   
     return (
-      <CreateHabitModalWrapper>
+      <ModalWrapper>
         <button onClick={close}>Close</button>
         <h2>new habit</h2>
         <label>
@@ -65,11 +65,11 @@ interface CreateHabitModalProps {
         }}>
             Create habit
         </button>
-      </CreateHabitModalWrapper>
+      </ModalWrapper>
     )
   }
   
-  const CreateHabitModalWrapper = styled.div`
+  export const ModalWrapper = styled.div`
     background-color: #000;
     z-index: 10;
     position: fixed;
@@ -129,7 +129,7 @@ interface CreateHabitModalProps {
     }
 
     return (
-      <CreateHabitModalWrapper>
+      <ModalWrapper>
         <button onClick={close}>Close</button>
         <h2>edit habit: {habitName}</h2>
         <label>
@@ -167,6 +167,6 @@ interface CreateHabitModalProps {
           handleUpdateHabit()
           close()
         }}>Update habit</button>
-      </CreateHabitModalWrapper>
+      </ModalWrapper>
     )
   }

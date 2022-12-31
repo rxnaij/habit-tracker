@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from 'react'
 import './App.css'
-import Habit, { HabitNode, HabitProps, Timeframe } from './components/Habit'
+import Habit, { HabitNode } from './components/Habit'
 import styled from 'styled-components'
 import { CreateHabitModal, EditHabitModal } from './components/Modal'
 import { tasks } from './sampleData'
@@ -82,7 +82,7 @@ const Section = ({ title, timeframe }: SectionProps) => {
   ).map(
     item => {
       // Apply count from current date
-      // Look for current date in item.dates[]
+      // Look for current date in item.dates
       const currentDate = item.progress.dates.find(result => result.date.getDate() === date.getDate())
       if (item.name === "Fix my bed") {
         console.log("Current habit date if found", currentDate)
@@ -100,13 +100,21 @@ const Section = ({ title, timeframe }: SectionProps) => {
       <div>
         Habits completed:
       </div>
+      <SectionHabitListWrapper>
       {
         sectionHabits.length > 0
           ? sectionHabits
           : "No habits"
       }
+      </SectionHabitListWrapper>
     </section>
   )
 }
+
+const SectionHabitListWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`
 
 export default App

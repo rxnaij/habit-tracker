@@ -125,7 +125,8 @@ interface CreateHabitModalProps {
                     name,
                     description,
                     goal,
-                    timeframe: frequency!
+                    timeframe: frequency!,
+                    progress: currentHabit!.progress
                 },
                 ...removeOriginal
             ])
@@ -174,3 +175,42 @@ interface CreateHabitModalProps {
       </ModalWrapper>
     )
   }
+
+
+  /*
+  Read habit info.
+  *Temporary component*
+*/
+
+interface HabitInfoModalProps {
+  close: () => void
+  data: HabitNode
+  count: number
+}
+
+export const HabitInfoModal = ({ close, data, count }: HabitInfoModalProps) => {
+  const {
+    name,
+    description,
+    goal,
+    timeframe,
+    progress
+  } = data
+
+  const { date } = useHabitState()
+
+  const currentDateProgress = progress.dates.find(item => item.valueOf() === date.valueOf())
+
+  return (
+    <ModalWrapper>
+      <button onClick={close}>Close</button>
+      <hr />
+      <h4><>Current date: {date.toDateString()}</></h4>
+      <h1>{name}</h1>
+      <p>Timeframe: {timeframe}</p>
+      {description && <p>{description}</p>}
+      <h2><>Progress on {date.toDateString()}:</></h2>
+      <p>{count} / {goal}</p>
+    </ModalWrapper>
+  )
+}

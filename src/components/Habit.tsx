@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useHabitState } from '../App'
 import styled from 'styled-components'
-import { EditHabitModal, ModalWrapper } from './Modal'
+import { EditHabitModal, HabitInfoModal } from './Modal'
 
 export type Timeframe =
   "day" | "week" | "month" | "year"
@@ -36,7 +36,6 @@ type DayProgress = {
   goal: number
 }
 
-
 export interface HabitProps {
   data: HabitNode
   initialCount?: number // Initial value for "count" state
@@ -54,6 +53,7 @@ const Habit = ({ data, initialCount=0 }: HabitProps) => {
   const { setHabits } = useHabitState()
 
   const [count, setCount] = useState(initialCount)
+
   const isGoalMet = count >= goal
 
   // Sync count with initialCount
@@ -71,15 +71,10 @@ const Habit = ({ data, initialCount=0 }: HabitProps) => {
   return (
     <HabitWrapper isGoalMet={isGoalMet}>
       <div>
-        <div>{name}</div>
-        <div>{count} / {goal}</div>
+        <h4>{name}</h4>
+        <span>{count} / {goal}</span>
       </div>
       <div>
-        <button onClick={() =>
-          setCount(count + 1)
-        }>
-          +
-        </button>
         <button onClick={() =>
           setCount(prev => {
             if (prev > 0) {
@@ -91,12 +86,13 @@ const Habit = ({ data, initialCount=0 }: HabitProps) => {
         }>
           -
         </button>
+        <button onClick={() =>
+          setCount(count + 1)
+        }>
+          +
+        </button>
       </div>
-      <div>
-        <button onClick={() => setInfoModalIsVisible(true)}>View</button>
-        <button onClick={() => setEditModalIsVisible(true)}>Edit</button>
-        <button onClick={() => handleRemoveHabit()}>Delete</button>
-      </div>
+      
       {
         editModalIsVisible &&
         <EditHabitModal
@@ -121,56 +117,57 @@ interface HabitWrapperProps {
 }
 
 const HabitWrapper = styled.div<HabitWrapperProps>`
+  color: #36494E;
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 24px;
-  padding: 24px;
+  align-items: center;
+  padding: 14px 20px;
   border-bottom: 1px solid gray;
+  border-radius: 8px;
 
-  background-color: ${props => props.isGoalMet ? 'green' : 'transparent'};
+  background-color: ${props => props.isGoalMet ? 'green' : '#ECEBE1'};
 
-  & > div {
+  & > div:first-of-type {
+    display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0;
+    h4 {
+      margin: 0;
+      padding: 0;
+      font-weight: 300;
+    }
+    span {
+      font-size: 1.5rem;
+    }
   }
+
+  & > div:last-of-type {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    button {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      padding: 0;
+      color: #36494e;
+      background-color: #00000006;
+    }
+  }
+
 `
 
+const Controls = () => (
+  <div>
+    <button onClick={() => setInfoModalIsVisible(true)}>View</button>
+    <button onClick={() => setEditModalIsVisible(true)}>Edit</button>
+    <button onClick={() => handleRemoveHabit()}>Delete</button>
+  </div>
+)
+
 export default Habit
-
-/*
-  Read habit info.
-  *Temporary component*
-*/
-
-interface HabitInfoModalProps {
-  close: () => void
-  data: HabitNode
-  count: number
-}
-
-const HabitInfoModal = ({ close, data, count }: HabitInfoModalProps) => {
-  const {
-    name,
-    description,
-    goal,
-    timeframe,
-    progress
-  } = data
-
-  const { date } = useHabitState()
-
-  const currentDateProgress = progress.dates.find(item => item.valueOf() === date.valueOf())
-
-  return (
-    <ModalWrapper>
-      <button onClick={close}>Close</button>
-      <hr />
-      <h4><>Current date: {date.toDateString()}</></h4>
-      <h1>{name}</h1>
-      <p>Timeframe: {timeframe}</p>
-      {description && <p>{description}</p>}
-      <h2><>Progress on {date.toDateString()}:</></h2>
-      <p>{count} / {goal}</p>
-    </ModalWrapper>
-  )
-}

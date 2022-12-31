@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useHabitState } from '../App'
 import styled from 'styled-components'
-import { EditHabitModal } from './Modal'
+import { EditHabitModal, ModalWrapper } from './Modal'
 
 export type Timeframe =
   "day" | "week" | "month" | "year"
@@ -12,6 +12,14 @@ export interface HabitNode {
   goal: number
   timeframe: Timeframe
   progress: HabitProgress
+}
+
+/*
+  Progress of a habit across its total existence
+*/
+interface HabitProgress {
+  dates: DayProgress[]
+  recordStreak: number
 }
 
 /*
@@ -28,35 +36,28 @@ type DayProgress = {
   goal: number
 }
 
-const defaultDayProgress = {
-  date: new Date,
-  count: 0,
-  goal: 0
+
+export interface HabitProps {
+  data: HabitNode
+  initialCount: number // Initial value for "count" state
 }
 
-/*
-  Progress of a habit across its total existence
-*/
-interface HabitProgress {
-  dates: DayProgress[]
-  recordStreak: number
-}
+const Habit = ({ data }: HabitProps) => {
+  const {
+    name,
+    goal,
+    description,
+    timeframe,
+    progress
+  } = data
 
-export interface HabitProps extends HabitNode {
-
-}
-
-const Habit = ({ name, goal, description, timeframe }: HabitProps) => {
   const { setHabits } = useHabitState()
 
-  const [current, setCurrent] = useState(0)
-  const [progress, setProgress] = useState<DayProgress>(defaultDayProgress)
+  const [count, setCount] = useState(0)
+  const isGoalMet = count >= goal
 
   const [editModalIsVisible, setEditModalIsVisible] = useState(false)
-
-  const isGoalMet = progress.count >= goal
-
-  // currentStreak = count number of consecutive days into the past where goal was met (count > goal)
+  const [infoModalIsVisible, setInfoModalIsVisible] = useState(false)
 
   const handleRemoveHabit = () => {
     setHabits(prev => prev.filter(item => item.name !== name))
@@ -66,29 +67,28 @@ const Habit = ({ name, goal, description, timeframe }: HabitProps) => {
     <HabitWrapper isGoalMet={isGoalMet}>
       <div>
         <div>{name}</div>
-        <div>{progress.count} / {goal}</div>
+        <div>{count} / {goal}</div>
       </div>
       <div>
         <button onClick={() =>
-          setProgress(prev => ({ ...prev, count: prev.count + 1 }))
+          setCount(count + 1)
         }>
           +
         </button>
         <button onClick={() =>
-          setProgress(prev => { 
-            if (prev.count > 0) {
-              return { 
-                ...prev, 
-                count: prev.count - 1 
-              } 
+          setCount(prev => {
+            if (prev > 0) {
+              return prev - 1
+            } else {
+              return prev
             }
-            else return prev
           })
         }>
           -
         </button>
       </div>
       <div>
+        <button onClick={() => setInfoModalIsVisible(true)}>View</button>
         <button onClick={() => setEditModalIsVisible(true)}>Edit</button>
         <button onClick={() => handleRemoveHabit()}>Delete</button>
       </div>
@@ -97,6 +97,14 @@ const Habit = ({ name, goal, description, timeframe }: HabitProps) => {
         <EditHabitModal
           close={() => setEditModalIsVisible(false)}
           habitName={name}
+        />
+      }
+      {
+        infoModalIsVisible &&
+        <HabitInfoModal
+          close={() => setInfoModalIsVisible(false)}
+          data={data}
+          count={count}
         />
       }
     </HabitWrapper>
@@ -123,3 +131,41 @@ const HabitWrapper = styled.div<HabitWrapperProps>`
 `
 
 export default Habit
+
+/*
+  Read habit info.
+  *Temporary component*
+*/
+
+interface HabitInfoModalProps {
+  close: () => void
+  data: HabitNode
+  count: number
+}
+
+const HabitInfoModal = ({ close, data, count }: HabitInfoModalProps) => {
+  const {
+    name,
+    description,
+    goal,
+    timeframe,
+    progress
+  } = data
+
+  const { date } = useHabitState()
+
+  const currentDateProgress = progress.dates.find(item => item.valueOf() === date.valueOf())
+
+  return (
+    <ModalWrapper>
+      <button onClick={close}>Close</button>
+      <hr />
+      <h4><>Current date: {date.toDateString()}</></h4>
+      <h1>{name}</h1>
+      <p>Timeframe: {timeframe}</p>
+      {description && <p>{description}</p>}
+      <h2><>Progress on {date.toDateString()}:</></h2>
+      <p>{count} / {goal}</p>
+    </ModalWrapper>
+  )
+}

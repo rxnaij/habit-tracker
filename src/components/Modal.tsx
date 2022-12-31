@@ -21,6 +21,10 @@ interface CreateHabitModalProps {
             description,
             goal,
             timeframe: frequency || "day",
+            progress: {
+              dates: [],
+              recordStreak: 0
+            }
         }))
     }
   

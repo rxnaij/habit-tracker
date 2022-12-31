@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useHabitState } from '../App'
 import styled from 'styled-components'
 import { EditHabitModal, ModalWrapper } from './Modal'
@@ -39,10 +39,10 @@ type DayProgress = {
 
 export interface HabitProps {
   data: HabitNode
-  initialCount: number // Initial value for "count" state
+  initialCount?: number // Initial value for "count" state
 }
 
-const Habit = ({ data }: HabitProps) => {
+const Habit = ({ data, initialCount=0 }: HabitProps) => {
   const {
     name,
     goal,
@@ -53,8 +53,13 @@ const Habit = ({ data }: HabitProps) => {
 
   const { setHabits } = useHabitState()
 
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(initialCount)
   const isGoalMet = count >= goal
+
+  // Sync count with initialCount
+  useEffect(() => {
+    setCount(initialCount)
+  }, [initialCount])
 
   const [editModalIsVisible, setEditModalIsVisible] = useState(false)
   const [infoModalIsVisible, setInfoModalIsVisible] = useState(false)

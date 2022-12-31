@@ -75,12 +75,23 @@ interface SectionProps {
 }
 
 const Section = ({ title, timeframe }: SectionProps) => {
-  const { habits } = useHabitState()
+  const { habits, date } = useHabitState()
 
   const sectionHabits = habits.filter(
     item => item.timeframe === timeframe
   ).map(
-    item => <Habit data={item} key={item.name} initialCount={0} />  // initialCount should sync with the `count` of the habit on the current date
+    item => {
+      // Apply count from current date
+      // Look for current date in item.dates[]
+      const currentDate = item.progress.dates.find(result => result.date.getDate() === date.getDate())
+      if (item.name === "Fix my bed") {
+        console.log("Current habit date if found", currentDate)
+      }
+      const initialValue = currentDate?.count
+      return (
+        <Habit data={item} key={item.name} initialCount={initialValue} />  // initialCount should sync with the `count` of the habit on the current date
+      )
+    }
   )
 
   return (

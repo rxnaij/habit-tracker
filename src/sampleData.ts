@@ -27,18 +27,23 @@ export const tasks: HabitNode[] = [
       goal: 1,
       timeframe: "day",
       progress: {
+        // only store dates when count > 0 (this means a habit was tracked on that day)
         dates: [
           {
-            date: new Date(2022, 12, 30),
+            date: new Date(2022, 11, 30),
             count: 1,
             goal: 1
           },
           {
-            date: new Date(2022, 12, 29),
-            count: 1,
+            date: new Date(2022, 11, 29),
+            count: 2,
+            goal: 1
+          },
+          {
+            date: new Date(2022, 11, 26),
+            count: 3,
             goal: 1
           }
-
         ],
         recordStreak: 0
       }

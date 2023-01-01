@@ -41,7 +41,7 @@ export interface HabitProps {
   initialCount?: number // Initial value for "count" state
 }
 
-const Habit = ({ data, initialCount=0 }: HabitProps) => {
+const Habit = ({ data, initialCount = 0 }: HabitProps) => {
   const {
     name,
     goal,
@@ -70,11 +70,11 @@ const Habit = ({ data, initialCount=0 }: HabitProps) => {
 
   return (
     <HabitWrapper isGoalMet={isGoalMet}>
-      <div>
+      <Title>
         <h4>{name}</h4>
         <span>{count} / {goal}</span>
-      </div>
-      <div>
+      </Title>
+      <Modifiers>
         <button onClick={() =>
           setCount(prev => {
             if (prev > 0) {
@@ -91,8 +91,7 @@ const Habit = ({ data, initialCount=0 }: HabitProps) => {
         }>
           +
         </button>
-      </div>
-      
+      </Modifiers>
       {
         editModalIsVisible &&
         <EditHabitModal
@@ -128,38 +127,40 @@ const HabitWrapper = styled.div<HabitWrapperProps>`
   border-radius: 8px;
 
   background-color: ${props => props.isGoalMet ? 'green' : '#ECEBE1'};
+`
 
-  & > div:first-of-type {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 0;
-    h4 {
-      margin: 0;
-      padding: 0;
-      font-weight: 300;
-    }
-    span {
-      font-size: 1.5rem;
-    }
+const Title = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0;
+  
+  h4 {
+    margin: 0;
+    padding: 0;
+    font-weight: 300;
   }
-
-  & > div:last-of-type {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-
-    button {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      padding: 0;
-      color: #36494e;
-      background-color: #00000006;
-    }
+  span {
+    font-size: 1.5rem;
+    font-feature-settings: 'tnum' on, 'lnum' on;
+    font-variant-numeric: tabular-nums;
   }
+`
 
+const Modifiers = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+
+  button {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    padding: 0;
+    color: #36494e;
+    background-color: #00000016;
+  }
 `
 
 const Controls = () => (

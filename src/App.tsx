@@ -49,10 +49,10 @@ function App() {
         <button onClick={() => setCreateModalIsVisible(true)}>Create new habit</button>
         <hr />
         <h2>
-          <button onClick={() => setDate(new Date(dateData.year, dateData.month, dateData.date - 1))}>Previous</button>
-          Date: {date.toDateString()}
-          <button onClick={() => setDate(new Date(dateData.year, dateData.month, dateData.date + 1))}>Next</button>
+          {date.toDateString()}
         </h2>
+          <button onClick={() => setDate(new Date(dateData.year, dateData.month, dateData.date - 1))}>Previous</button>
+          <button onClick={() => setDate(new Date(dateData.year, dateData.month, dateData.date + 1))}>Next</button>
         <hr />
         <Section title="Today" timeframe="day" />
         <Section title="Weekly" timeframe="week" />
@@ -84,9 +84,6 @@ const Section = ({ title, timeframe }: SectionProps) => {
       // Apply count from current date
       // Look for current date in item.dates
       const currentDate = item.progress.dates.find(result => result.date.getDate() === date.getDate())
-      if (item.name === "Fix my bed") {
-        console.log("Current habit date if found", currentDate)
-      }
       const initialValue = currentDate?.count
       return (
         <Habit data={item} key={item.name} initialCount={initialValue} />  // initialCount should sync with the `count` of the habit on the current date

@@ -3,76 +3,6 @@ import { HabitProps, HabitNode, Timeframe } from "./Habit"
 import { useHabitState } from "../App"
 import styled from "styled-components"
 
-interface CreateHabitModalProps {
-  close: () => void
-}
-
-export function CreateHabitModal({ close }: CreateHabitModalProps) {
-  const { setHabits } = useHabitState()
-
-  const [name, setName] = useState<string>("")
-  const [description, setDescription] = useState("")
-  const [goal, setGoal] = useState(0)
-  const [frequency, setFrequency] = useState<Timeframe | null>(null)
-
-  const createHabit = () => {
-    setHabits(prev => prev.concat({
-      name,
-      description,
-      goal,
-      timeframe: frequency || "day",
-      progress: {
-        dates: [],
-        recordStreak: 0
-      }
-    }))
-  }
-
-  return (
-    <ModalWrapper>
-      <button onClick={close}>Close</button>
-      <h2>new habit</h2>
-      <label>
-        Name
-        <input type="text" value={name} onChange={e => { setName(e.target.value) }} />
-      </label>
-      <label>
-        Description
-        <input type="text" value={description} onChange={e => { setDescription(e.target.value) }} />
-      </label>
-      <label>
-        Goal
-        <input type="number" step={1} value={goal} onChange={(e) => { setGoal(e.target.value!) }} />
-      </label>
-      <fieldset>
-        Frequency
-        <label>
-          <input type="radio" name="frequency" id="create-habit-timeframe-radio-daily" onChange={() => setFrequency("day")} />
-          Daily
-        </label>
-        <label>
-          <input type="radio" name="frequency" id="create-habit-timeframe-radio-weekly" onChange={() => setFrequency("week")} />
-          Weekly
-        </label>
-        <label>
-          <input type="radio" name="frequency" id="create-habit-timeframe-radio-monthly" onChange={() => setFrequency("month")} />
-          Monthly
-        </label>
-        <label>
-          <input type="radio" name="frequency" id="create-habit-timeframe-radio-yearly" onChange={() => setFrequency("year")} />
-          Yearly
-        </label>
-      </fieldset>
-      <button onClick={() => {
-        createHabit()
-        close()
-      }}>
-        Create habit
-      </button>
-    </ModalWrapper>
-  )
-}
-
 export const ModalWrapper = styled.div`
   background-color: #000;
   z-index: 10;
@@ -87,13 +17,6 @@ export const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-
-  label {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 8px;
-  }
 `
 
 interface EditHabitModalProps {

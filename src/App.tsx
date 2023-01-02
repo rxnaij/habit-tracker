@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext, useContext } from 'react'
 import './App.css'
 import Habit, { HabitNode } from './components/Habit'
 import styled from 'styled-components'
-import { CreateHabitModal, EditHabitModal } from './components/Modal'
+import CreateHabitModal from './components/CreateHabitModal'
 import { tasks } from './sampleData'
 
 /* State context */

@@ -10,6 +10,7 @@ interface HabitState {
   habits: Array<HabitNode>
   setHabits: React.Dispatch<React.SetStateAction<Array<HabitNode>>>
   date: Date
+  setDate: React.Dispatch<React.SetStateAction<Date>>
 }
 
 const HabitStateContext = createContext<HabitState>(null!)
@@ -19,7 +20,7 @@ export function useHabitState() {
   return useContext(HabitStateContext)
 }
 
-function App() {
+export default function App() {
   const [createModalIsVisible, setCreateModalIsVisible] = useState(false)
 
   const [habits, setHabits] = useState<HabitNode[]>(tasks)
@@ -27,33 +28,14 @@ function App() {
   // Current date stored at the top level
   const today = new Date()
   const [date, setDate] = useState<Date>(today)
-  // Use to compare dates - idk of a better way
-  const [dateData, setDateData] = useState({
-    year: date.getFullYear(),
-    month: date.getMonth(),
-    date: date.getDate()
-  })
-
-  // sync dateData with date
-  useEffect(() => {
-    setDateData({
-      year: date.getFullYear(),
-      month: date.getMonth(),
-      date: date.getDate()
-    })
-  }, [date])
 
   return (
-    <HabitStateContext.Provider value={{ habits, setHabits, date }}>
+    <HabitStateContext.Provider value={{ habits, setHabits, date, setDate }}>
       <div className="App" >
-        <button onClick={() => setCreateModalIsVisible(true)}>Create new habit</button>
-        <hr />
-        <h2>
-          {date.toDateString()}
-        </h2>
-          <button onClick={() => setDate(new Date(dateData.year, dateData.month, dateData.date - 1))}>Previous</button>
-          <button onClick={() => setDate(new Date(dateData.year, dateData.month, dateData.date + 1))}>Next</button>
-        <hr />
+        <button type='button' onClick={() => setCreateModalIsVisible(true)}>
+          Create new habit
+        </button>
+        <Header />
         <Section title="Today" timeframe="day" />
         <Section title="Weekly" timeframe="week" />
         <Section title="Monthly" timeframe="month" />
@@ -68,6 +50,27 @@ function App() {
     </HabitStateContext.Provider>
   )
 }
+
+const Header = () => {
+  const { date, setDate } = useHabitState()
+  return (
+    <header>
+      <DateHeader>
+        {date.toLocaleDateString("en-US", { dateStyle: "full" })}
+      </DateHeader>
+      <button onClick={() => setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1))}>Previous</button>
+      <button onClick={() => setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1))}>Next</button>
+    </header>
+  )
+}
+
+const DateHeader = styled.h2`
+  font-weight: 700;
+  font-size: ${19 / 16}rem;
+  text-align: right;
+
+  margin-left: auto;
+`
 
 interface SectionProps {
   title: string,
@@ -98,11 +101,11 @@ const Section = ({ title, timeframe }: SectionProps) => {
         Habits completed:
       </div>
       <SectionHabitListWrapper>
-      {
-        sectionHabits.length > 0
-          ? sectionHabits
-          : "No habits"
-      }
+        {
+          sectionHabits.length > 0
+            ? sectionHabits
+            : "No habits"
+        }
       </SectionHabitListWrapper>
     </section>
   )
@@ -113,5 +116,3 @@ const SectionHabitListWrapper = styled.section`
   flex-direction: column;
   gap: 16px;
 `
-
-export default App

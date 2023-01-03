@@ -1,5 +1,6 @@
 import VisuallyHidden from './VisuallyHidden.jsx'
-import styled from "styled-components"
+import styled, { ThemeProvider } from "styled-components"
+import { lightColorTheme } from '../../colorTheme.js'
 
 interface RadioButtonsProps {
     title: string
@@ -17,6 +18,7 @@ interface RadioButtonsProps {
 
 export default function RadioButtons({ title, values, name, state, setState }: RadioButtonsProps) {
     return (
+        <ThemeProvider theme={lightColorTheme}>
         <RadioButtonsWrapper>
             <div>{title}</div>
             <RadioWrapper>
@@ -40,6 +42,7 @@ export default function RadioButtons({ title, values, name, state, setState }: R
                 }
             </RadioWrapper>
         </RadioButtonsWrapper>
+        </ThemeProvider>
     )
 }
 
@@ -81,9 +84,11 @@ const RadioButton = styled.label<RadioButtonProps>`
 
     background-color: ${props =>
         props.isActive
-            ? "green"
+            ? props.theme.accent
             : "transparent"
     };
+
+    color: ${({isActive, theme}) => isActive && theme.background };
 
     font-size: 0.75rem;
     text-transform: uppercase;

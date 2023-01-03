@@ -1,28 +1,15 @@
-import { useState, createContext, useContext } from 'react'
+import { useState } from 'react'
 import { useHabitState } from "../App"
 import { Timeframe } from './Habit'
 import { ModalWrapper } from './Modal'
 import RadioButtons from './common/RadioButtons'
-import styled from 'styled-components'
+import Input from './common/Input'
+import { ThemeProvider } from 'styled-components'
+import { lightColorTheme } from '../colorTheme'
 
 interface CreateHabitModalProps {
     close: () => void
 }
-
-interface FrequencyState {
-    frequency: Timeframe
-    setFrequency: (t: Timeframe) => void
-}
-
-const FrequencyStateContext = createContext<FrequencyState>(null!)
-
-type StateContextHook = {}
-
-const useFrequencyState = () => {
-    return useContext(FrequencyStateContext)
-}
-
-
 
 export default function CreateHabitModal({ close }: CreateHabitModalProps) {
     const { setHabits } = useHabitState()
@@ -65,6 +52,7 @@ export default function CreateHabitModal({ close }: CreateHabitModalProps) {
     }
 
     return (
+        <ThemeProvider theme={lightColorTheme}>
         <ModalWrapper>
             <button onClick={close}>Close</button>
             <h2>new habit</h2>
@@ -94,24 +82,7 @@ export default function CreateHabitModal({ close }: CreateHabitModalProps) {
                 Create habit
             </button>
         </ModalWrapper>
+        </ThemeProvider>
     )
 }
 
-const Input = styled.label`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 4%;
-
-    input {
-        align-self: stretch;
-        background-color: #FFFFFF50;
-        border: none;
-        border-radius: 4px;
-        padding: 16px;
-    }
-`

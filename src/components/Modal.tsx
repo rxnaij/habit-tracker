@@ -1,10 +1,13 @@
 import { useState } from "react"
 import { HabitProps, HabitNode, Timeframe } from "./Habit"
 import { useHabitState } from "../App"
-import styled from "styled-components"
+import styled, { ThemeProvider } from "styled-components"
+import { lightColorTheme } from "../colorTheme"
+import Input from "./common/Input"
+import RadioButtons from "./common/RadioButtons"
 
 export const ModalWrapper = styled.div`
-  background-color: #000;
+  background-color: ${props => props.theme.background};
   z-index: 10;
   position: fixed;
   top: 0;
@@ -17,6 +20,8 @@ export const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  color: ${props => props.theme.textPrimary};
 `
 
 interface EditHabitModalProps {
@@ -55,46 +60,55 @@ export const EditHabitModal = ({ close, habitName }: EditHabitModalProps) => {
     })
   }
 
+  const frequencyValues = [
+    {
+      value: "day",
+      label: "Daily"
+    },
+    {
+      value: "week",
+      label: "Weekly"
+    },
+    {
+      value: "month",
+      label: "Monthly"
+    },
+    {
+      value: "year",
+      label: "Yearly"
+    },
+  ]
+
   return (
-    <ModalWrapper>
-      <button onClick={close}>Close</button>
-      <h2>edit habit: {habitName}</h2>
-      <label>
-        Name
-        <input type="text" value={name} onChange={e => { setName(e.target.value) }} />
-      </label>
-      <label>
-        Description
-        <input type="text" value={description} onChange={e => { setDescription(e.target.value) }} />
-      </label>
-      <label>
-        Goal
-        <input type="number" step={1} value={goal} onChange={(e) => { setGoal(e.target.value!) }} />
-      </label>
-      <fieldset>
-        Frequency
-        <label>
-          <input type="radio" name="frequency" id="create-habit-timeframe-radio-daily" onChange={() => setFrequency("day")} />
-          Daily
-        </label>
-        <label>
-          <input type="radio" name="frequency" id="create-habit-timeframe-radio-weekly" onChange={() => setFrequency("week")} />
-          Weekly
-        </label>
-        <label>
-          <input type="radio" name="frequency" id="create-habit-timeframe-radio-monthly" onChange={() => setFrequency("month")} />
-          Monthly
-        </label>
-        <label>
-          <input type="radio" name="frequency" id="create-habit-timeframe-radio-yearly" onChange={() => setFrequency("year")} />
-          Yearly
-        </label>
-      </fieldset>
-      <button onClick={() => {
-        handleUpdateHabit()
-        close()
-      }}>Update habit</button>
-    </ModalWrapper>
+    <ThemeProvider theme={lightColorTheme}>
+      <ModalWrapper>
+        <button onClick={close}>Close</button>
+        <h2>edit habit: {habitName}</h2>
+        <Input>
+          Name
+          <input type="text" value={name} onChange={e => { setName(e.target.value) }} />
+        </Input>
+        <Input>
+          Description
+          <input type="text" value={description} onChange={e => { setDescription(e.target.value) }} />
+        </Input>
+        <Input>
+          Goal
+          <input type="number" step={1} value={goal} onChange={(e) => { setGoal(e.target.value) }} />
+        </Input>
+        <RadioButtons 
+          name="frequency"
+          title="Frequency"
+          values={frequencyValues}
+          state={frequency}
+          setState={setFrequency}
+        />
+        <button onClick={() => {
+          handleUpdateHabit()
+          close()
+        }}>Update habit</button>
+      </ModalWrapper>
+    </ThemeProvider>
   )
 }
 
@@ -122,15 +136,17 @@ export const HabitInfoModal = ({ close, data, count }: HabitInfoModalProps) => {
   const { date } = useHabitState()
 
   return (
-    <ModalWrapper>
-      <button onClick={close}>Close</button>
-      <hr />
-      <h4><>Current date: {date.toDateString()}</></h4>
-      <h1>{name}</h1>
-      <p>Timeframe: {timeframe}</p>
-      {description && <p>{description}</p>}
-      <h2><>Progress on {date.toDateString()}:</></h2>
-      <p>{count} / {goal}</p>
-    </ModalWrapper>
+    <ThemeProvider theme={lightColorTheme}>
+      <ModalWrapper>
+        <button onClick={close}>Close</button>
+        <hr />
+        <h4><>Current date: {date.toDateString()}</></h4>
+        <h1>{name}</h1>
+        <p>Timeframe: {timeframe}</p>
+        {description && <p>{description}</p>}
+        <h2><>Progress on {date.toDateString()}:</></h2>
+        <p>{count} / {goal}</p>
+      </ModalWrapper>
+    </ThemeProvider>
   )
 }

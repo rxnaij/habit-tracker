@@ -19,29 +19,29 @@ interface RadioButtonsProps {
 export default function RadioButtons({ title, values, name, state, setState }: RadioButtonsProps) {
     return (
         <ThemeProvider theme={lightColorTheme}>
-        <RadioButtonsWrapper>
-            <div>{title}</div>
-            <RadioWrapper>
-                {
-                    values.map(button => (
-                        <RadioButton
-                            isActive={button.value === state}
-                            key={button.value}
-                        >
-                            <VisuallyHidden>
-                                <input
-                                    type="radio"
-                                    name="frequency"
-                                    id={`radiobutton__${name}--${button.value}`}
-                                    onChange={() => setState(button.value)}
-                                />
-                            </VisuallyHidden>
-                            { button.label }
-                        </RadioButton>
-                    ))
-                }
-            </RadioWrapper>
-        </RadioButtonsWrapper>
+            <RadioButtonsWrapper>
+                <div>{title}</div>
+                <RadioWrapper>
+                    {
+                        values.map(button => (
+                            <RadioButton
+                                isActive={button.value === state}
+                                key={button.value}
+                            >
+                                <VisuallyHidden>
+                                    <input
+                                        type="radio"
+                                        name="frequency"
+                                        id={`radiobutton__${name}--${button.value}`}
+                                        onChange={() => setState(button.value)}
+                                    />
+                                </VisuallyHidden>
+                                {button.label}
+                            </RadioButton>
+                        ))
+                    }
+                </RadioWrapper>
+            </RadioButtonsWrapper>
         </ThemeProvider>
     )
 }
@@ -87,8 +87,7 @@ const RadioButton = styled.label<RadioButtonProps>`
             ? props.theme.accent
             : "transparent"
     };
-
-    color: ${({isActive, theme}) => isActive && theme.background };
+    color: ${({ isActive, theme }) => isActive && theme.background};
 
     font-size: 0.75rem;
     text-transform: uppercase;

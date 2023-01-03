@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useHabitState } from '../App'
-import styled from 'styled-components'
-import { EditHabitModal, HabitInfoModal } from './Modal'
+import styled, { ThemeProvider } from 'styled-components'
+import { EditHabitModal, HabitInfoModal } from './common/Modal'
+import { lightColorTheme } from '../colorTheme'
 
 export type Timeframe =
   "day" | "week" | "month" | "year"
@@ -69,45 +70,47 @@ const Habit = ({ data, initialCount = 0 }: HabitProps) => {
   }
 
   return (
-    <HabitWrapper isGoalMet={isGoalMet}>
-      <Title>
-        <h4>{name}</h4>
-        <span>{count} / {goal}</span>
-      </Title>
-      <Modifiers>
-        <button onClick={() =>
-          setCount(prev => {
-            if (prev > 0) {
-              return prev - 1
-            } else {
-              return prev
-            }
-          })
-        }>
-          -
-        </button>
-        <button onClick={() =>
-          setCount(count + 1)
-        }>
-          +
-        </button>
-      </Modifiers>
-      {
-        editModalIsVisible &&
-        <EditHabitModal
-          close={() => setEditModalIsVisible(false)}
-          habitName={name}
-        />
-      }
-      {
-        infoModalIsVisible &&
-        <HabitInfoModal
-          close={() => setInfoModalIsVisible(false)}
-          data={data}
-          count={count}
-        />
-      }
-    </HabitWrapper>
+    <ThemeProvider theme={lightColorTheme}>
+      <HabitWrapper isGoalMet={isGoalMet}>
+        <Title onClick={() => setEditModalIsVisible(true)}>
+          <h4>{name}</h4>
+          <span>{count} / {goal}</span>
+        </Title>
+        <Modifiers>
+          <button onClick={() =>
+            setCount(prev => {
+              if (prev > 0) {
+                return prev - 1
+              } else {
+                return prev
+              }
+            })
+          }>
+            -
+          </button>
+          <button onClick={() =>
+            setCount(count + 1)
+          }>
+            +
+          </button>
+        </Modifiers>
+        {
+          editModalIsVisible &&
+          <EditHabitModal
+            close={() => setEditModalIsVisible(false)}
+            habitName={name}
+          />
+        }
+        {
+          infoModalIsVisible &&
+          <HabitInfoModal
+            close={() => setInfoModalIsVisible(false)}
+            data={data}
+            count={count}
+          />
+        }
+      </HabitWrapper>
+    </ThemeProvider>
   )
 }
 
@@ -135,14 +138,20 @@ const Title = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 0;
+
+  color: ${({theme}) => theme.textPrimary};
   
+  // Habit title
   h4 {
     margin: 0;
     padding: 0;
     font-weight: 300;
   }
+  // Habit count
   span {
     font-size: 1.5rem;
+
+    // Enable monospace numerals
     font-feature-settings: 'tnum' on, 'lnum' on;
     font-variant-numeric: tabular-nums;
   }

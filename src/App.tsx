@@ -67,9 +67,10 @@ const Header = () => {
 const DateHeader = styled.h2`
   font-weight: 700;
   font-size: ${19 / 16}rem;
-  text-align: right;
+  text-align: center;
 
   margin-left: auto;
+  margin-right: auto;
 `
 
 interface SectionProps {
@@ -97,9 +98,6 @@ const Section = ({ title, timeframe }: SectionProps) => {
   return (
     <section>
       <h2>{title}</h2>
-      <div>
-        Habits completed:
-      </div>
       <SectionHabitListWrapper>
         {
           sectionHabits.length > 0

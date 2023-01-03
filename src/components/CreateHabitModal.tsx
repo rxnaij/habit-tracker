@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useHabitState } from "../App"
 import { Timeframe } from './Habit'
-import { ModalWrapper } from './Modal'
+import { ModalWrapper } from './common/Modal'
 import RadioButtons from './common/RadioButtons'
 import Input from './common/Input'
 import { ThemeProvider } from 'styled-components'

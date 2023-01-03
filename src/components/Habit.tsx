@@ -123,10 +123,10 @@ const HabitWrapper = styled.div<HabitWrapperProps>`
   justify-content: space-between;
   align-items: center;
   padding: 14px 20px;
-  border-bottom: 1px solid gray;
   border-radius: 8px;
 
-  background-color: ${props => props.isGoalMet ? 'green' : '#ECEBE1'};
+  background-color: ${props => props.isGoalMet ? '#EDE8B2' : '#ECEBE1'};
+  box-shadow: 0 8px 24px #54534820;
 `
 
 const Title = styled.div`

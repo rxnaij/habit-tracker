@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useHabitState } from '../App'
 import styled, { ThemeProvider } from 'styled-components'
-import { EditHabitModal, HabitInfoModal } from './common/Modal'
 import { lightColorTheme } from '../colorTheme'
 
 export type Timeframe =

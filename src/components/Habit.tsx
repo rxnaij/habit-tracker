@@ -50,9 +50,84 @@ const Habit = ({ data, initialCount = 0 }: HabitProps) => {
     progress
   } = data
 
-  const { setHabits } = useHabitState()
+  const { habits, setHabits, date } = useHabitState()
+
+  // Update app state when habit count is updated
+  const handleUpdateHabitState = () => {
+    // Identify the habit to update (this habit)
+    const index = habits.findIndex(item => item.name === name)
+    const thisHabit = habits[index]
+    // Get data from current app date
+    const currentDateIndex = thisHabit.progress.dates.findIndex(item => item.date.getDate() === date.getDate())
+    
+    // Is there a positive count value?
+    if (count > 0) {
+      // If current date exists in thisHabit.progress.dates, modify existing date
+      // If not, add a new date to thisHabit.progress.dates
+
+      // Create DayProgress if index doesn't exist; update otherwise
+      const currentDayProgress: DayProgress = currentDateIndex === -1
+        // new object
+        ? { date, count, goal }   
+        // modified existing object
+        : {                       
+          ...thisHabit.progress.dates[currentDateIndex],
+          count
+        }
+  
+      const updatedDatesArray = currentDateIndex === -1
+        ? [currentDayProgress].concat(thisHabit.progress.dates)
+        : thisHabit.progress.dates.map((item, i) => {
+          if (i === currentDateIndex) {
+            return currentDayProgress
+          } else {
+            return item
+          }
+        })
+
+      const updatedThisHabit = {
+        ...thisHabit,
+        progress: {
+          ...thisHabit.progress,
+          dates: updatedDatesArray
+        }
+      }
+  
+      // Update habit state
+      // Replace old habit object with new habit object
+      setHabits(habits.map((item, i) => {
+        if (i === index) {
+          return updatedThisHabit
+        } else {
+          return item
+        }
+      }))
+    }
+    // Is the count value 0?
+    // else if (count === 0 && ) {
+    //   setHabits(habits.map((item, i) => {
+    //     if (i === index) {
+    //       return({
+    //         ...item,
+    //         progress: {
+    //           ...item.progress,
+    //           dates: {
+    //             ...item.progress.dates.filter((_, i) => i !== currentDateIndex)
+    //           }
+    //         }
+    //       })
+    //     }
+    //     return item
+    //   }))
+    // }
+
+  }
 
   const [count, setCount] = useState(initialCount)
+
+  useEffect(() => {
+    handleUpdateHabitState()
+  }, [count])
 
   const isGoalMet = count >= goal
 
@@ -138,7 +213,7 @@ const Title = styled.div`
   align-items: flex-start;
   gap: 0;
 
-  color: ${({theme}) => theme.textPrimary};
+  color: ${({ theme }) => theme.textPrimary};
   
   // Habit title
   h4 {
@@ -180,3 +255,21 @@ const Controls = () => (
 )
 
 export default Habit
+
+function replaceElementInArray<T,>(origArray: T[], removeIndex: number, newElem: T) {
+  return origArray.map((item, i) => {
+    if (i === removeIndex) {
+      return newElem
+    } else {
+      return item
+    }
+  })
+}
+
+function updateArray<T,>(origArray: T[], newElem: T, existingElemIndex?: number,) {
+  if (existingElemIndex) {
+    return replaceElementInArray(origArray, existingElemIndex, newElem)
+  } else {
+    return [newElem].concat(origArray)  // add to top
+  }
+}

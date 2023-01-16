@@ -1,8 +1,9 @@
-import React, { useState, useEffect, createContext, useContext } from 'react'
+import React, { useState, createContext, useContext } from 'react'
 import './App.css'
 import { HabitNode } from './components/Habit'
 import { tasks } from './sampleData'
 import Home from './components/Home'
+import styled from 'styled-components'
 
 /* State context */
 interface HabitState {
@@ -28,7 +29,13 @@ export default function App() {
   
   return (
     <HabitStateContext.Provider value={{ habits, setHabits, date, setDate }}>
-      <Home />
+      <AppLayoutWrapper>
+        <Home />
+      </AppLayoutWrapper>
     </HabitStateContext.Provider>
   )
 }
+
+const AppLayoutWrapper = styled.div`
+  /* padding: 32px 0; */
+`

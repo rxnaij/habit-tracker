@@ -9,7 +9,7 @@ export const ModalWrapper = styled.div`
   right: 0;
   left: 0;
 
-  padding: 0 24px;
+  padding: 32px;
 
   display: flex;
   flex-direction: column;

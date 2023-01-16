@@ -1,11 +1,11 @@
 import { useState } from "react"
 import styled, { ThemeProvider } from "styled-components"
 import { lightColorTheme } from "../colorTheme"
-import { tasks } from "../sampleData"
 import CreateHabitModal from "./CreateHabitModal"
-import Habit, { HabitNode } from "./Habit"
+import Habit from "./Habit"
 import { useHabitState } from "../App"
 import VisuallyHidden from './common/VisuallyHidden.jsx'
+import { ButtonGroup } from "./common/Button"
 
 export default function Home() {
     const [createModalIsVisible, setCreateModalIsVisible] = useState(false)
@@ -95,12 +95,6 @@ const DateHeader = styled.h2`
   font-size: 2rem;
   line-height: 1.25;
   text-align: end;
-`
-
-const ButtonGroup = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
 `
 
 interface SectionProps {

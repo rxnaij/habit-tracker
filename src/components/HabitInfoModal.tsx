@@ -9,6 +9,7 @@ import { lightColorTheme } from "../colorTheme"
 import { HabitNode } from "./Habit"
 import { ModalWrapper } from "./common/Modal"
 import styled from "styled-components"
+import { ButtonGroup } from "./common/Button"
 
 interface HabitInfoModalProps {
     close: () => void
@@ -32,7 +33,6 @@ export const HabitInfoModal = ({ close, data, count }: HabitInfoModalProps) => {
             <HabitInfoModalWrapper>
                 <header>
                     <button onClick={close}>Close</button>
-                    <div>{ date.toLocaleDateString("en-US", { dateStyle: "full" }) }</div>
                 </header>
                 <HabitContentWrapper>
                     <TitleWrapper>
@@ -40,13 +40,33 @@ export const HabitInfoModal = ({ close, data, count }: HabitInfoModalProps) => {
                         <p>{timeframe}</p>
                     </TitleWrapper>
                     {description && <DescriptionWrapper>{description}</DescriptionWrapper>}
-                    <ProgressWrapper>{count} / {goal}</ProgressWrapper>
-                    <p>Current streak: 1 day</p>
+                    <ProgressWrapper>
+                        <button onClick={() =>
+                            setCount(prev => {
+                                if (prev > 0) {
+                                    return prev - 1
+                                } else {
+                                    return prev
+                                }
+                            })
+                        }>
+                            -
+                        </button>
+                        {count} / {goal}
+                        <button onClick={() =>
+                            setCount(count + 1)
+                        }>
+                            +
+                        </button>
+                    </ProgressWrapper>
+                    <Streak>Current streak: 1 day</Streak>
                 </HabitContentWrapper>
-                <footer>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </footer>
+                <Footer>
+                    <ButtonGroup>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                    </ButtonGroup>
+                </Footer>
             </HabitInfoModalWrapper>
         </ThemeProvider>
     )
@@ -65,6 +85,7 @@ const HabitContentWrapper = styled.section`
 `
 
 const TitleWrapper = styled.div`
+    line-height: 1.2;
     h1 {
         font-size: 1rem;
         font-weight: 700;
@@ -76,6 +97,8 @@ const TitleWrapper = styled.div`
         font-size: 0.875rem;
         text-transform: uppercase;
         letter-spacing: 0.04em;
+
+        color: ${props => props.theme.textPrimary + "80"};
     }
 `
 
@@ -84,11 +107,30 @@ const DescriptionWrapper = styled.p`
     line-height: ${25 / 13};
 `
 
-const ProgressWrapper = styled.p`
-    font-weight: 700;
-    font-size: ${29/16}rem;
+const ProgressWrapper = styled.div`
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+
+    font-weight: 400;
+    font-size: ${29 / 16}rem;
 
     // Enable monospace numerals
     font-feature-settings: 'tnum' on, 'lnum' on;
     font-variant-numeric: tabular-nums;
+`
+
+const Streak = styled.p`
+    align-self: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+`
+
+const Footer = styled.footer`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `

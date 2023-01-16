@@ -13,7 +13,7 @@ export const tasks: HabitNode[] = [
     },
     {
       name: "Take a walk",
-      description: "",
+      description: "Go to the park and back",
       goal: 3,
       timeframe: "week",
       progress: {
@@ -23,7 +23,7 @@ export const tasks: HabitNode[] = [
     },
     {
       name: "Fix my bed",
-      description: "Don't forget to fold lap blanket",
+      description: "Don't forget to fold lap blanket. Also, this is a long description. We're going to test out how long the text goes in order to see the line height.",
       goal: 1,
       timeframe: "day",
       progress: {

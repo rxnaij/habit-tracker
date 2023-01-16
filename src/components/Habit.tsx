@@ -61,7 +61,7 @@ const Habit = ({ data, initialCount = 0 }: HabitProps) => {
     const thisHabit = habits[index]
     // Get data from current app date
     const currentDateIndex = thisHabit.progress.dates.findIndex(item => item.date.getDate() === date.getDate())
-    
+
     // Is there a positive count value?
     if (count > 0) {
       // If current date exists in thisHabit.progress.dates, modify existing date
@@ -70,13 +70,13 @@ const Habit = ({ data, initialCount = 0 }: HabitProps) => {
       // Create DayProgress if index doesn't exist; update otherwise
       const currentDayProgress: DayProgress = currentDateIndex === -1
         // new object
-        ? { date, count, goal }   
+        ? { date, count, goal }
         // modified existing object
-        : {                       
+        : {
           ...thisHabit.progress.dates[currentDateIndex],
           count
         }
-  
+
       const updatedDatesArray = currentDateIndex === -1
         ? [currentDayProgress].concat(thisHabit.progress.dates)
         : thisHabit.progress.dates.map((item, i) => {
@@ -94,7 +94,7 @@ const Habit = ({ data, initialCount = 0 }: HabitProps) => {
           dates: updatedDatesArray
         }
       }
-  
+
       // Update habit state
       // Replace old habit object with new habit object
       setHabits(habits.map((item, i) => {
@@ -195,8 +195,6 @@ interface HabitWrapperProps {
 }
 
 const HabitWrapper = styled.div<HabitWrapperProps>`
-  color: #36494E;
-
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -204,8 +202,10 @@ const HabitWrapper = styled.div<HabitWrapperProps>`
   padding: 14px 20px;
   border-radius: 8px;
 
-  background-color: ${props => props.isGoalMet ? '#EDE8B2' : '#ECEBE1'};
+  background-color: ${props => props.isGoalMet ? '#EDE8B2' : props.theme.background};
   box-shadow: 0 8px 24px #54534820;
+
+  color: ${({ theme }) => theme.textPrimary};
 `
 
 const Title = styled.div`
@@ -214,8 +214,6 @@ const Title = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 0;
-
-  color: ${({ theme }) => theme.textPrimary};
   
   // Habit title
   h4 {

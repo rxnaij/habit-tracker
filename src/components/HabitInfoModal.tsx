@@ -29,37 +29,58 @@ export const HabitInfoModal = ({ close, data, count }: HabitInfoModalProps) => {
 
     return (
         <ThemeProvider theme={lightColorTheme}>
-            <ModalWrapper>
-                <button onClick={close}>Close</button>
-                <TitleWrapper>
-                    <h1>{name}</h1>
-                    <p>Timeframe: {timeframe}</p>
-                </TitleWrapper>
-                {description && <DescriptionWrapper>{description}</DescriptionWrapper>}
-                <ProgressWrapper>{count} / {goal}</ProgressWrapper>
-            </ModalWrapper>
+            <HabitInfoModalWrapper>
+                <header>
+                    <button onClick={close}>Close</button>
+                    <div>{ date.toLocaleDateString("en-US", { dateStyle: "full" }) }</div>
+                </header>
+                <HabitContentWrapper>
+                    <TitleWrapper>
+                        <h1>{name}</h1>
+                        <p>{timeframe}</p>
+                    </TitleWrapper>
+                    {description && <DescriptionWrapper>{description}</DescriptionWrapper>}
+                    <ProgressWrapper>{count} / {goal}</ProgressWrapper>
+                </HabitContentWrapper>
+                <footer>
+                    <button>Edit</button>
+                    <button>Delete</button>
+                </footer>
+            </HabitInfoModalWrapper>
         </ThemeProvider>
     )
 }
 
+const HabitInfoModalWrapper = styled(ModalWrapper)`
+    justify-content: space-between;
+`
+
+const HabitContentWrapper = styled.section`
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+
+    text-align: start;
+`
+
 const TitleWrapper = styled.div`
     h1 {
         font-size: 1rem;
-        font-weight: 400;
+        font-weight: 700;
         margin: 0;
-        /* line-height: 1.5; */
     }
     
     p {
         margin: 0;
         font-size: 0.875rem;
         text-transform: uppercase;
-        letter-spacing: 4%;
+        letter-spacing: 0.04em;
     }
 `
 
 const DescriptionWrapper = styled.p`
-    font-size: ${13/16}rem;
+    font-size: ${13 / 16}rem;
+    line-height: ${25 / 13};
 `
 
 const ProgressWrapper = styled.p`

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useHabitState } from '../App'
 import styled, { ThemeProvider } from 'styled-components'
 import { lightColorTheme } from '../colorTheme'
+import { EditHabitModal } from './EditHabitModal'
+import { HabitInfoModal } from './HabitInfoModal'
 
 export type Timeframe =
   "day" | "week" | "month" | "year"
@@ -146,7 +148,7 @@ const Habit = ({ data, initialCount = 0 }: HabitProps) => {
   return (
     <ThemeProvider theme={lightColorTheme}>
       <HabitWrapper isGoalMet={isGoalMet}>
-        <Title onClick={() => setEditModalIsVisible(true)}>
+        <Title onClick={() => setInfoModalIsVisible(true)}>
           <h4>{name}</h4>
           <span>{count} / {goal}</span>
         </Title>
@@ -245,14 +247,6 @@ const Modifiers = styled.div`
     background-color: #00000016;
   }
 `
-
-const Controls = () => (
-  <div>
-    <button onClick={() => setInfoModalIsVisible(true)}>View</button>
-    <button onClick={() => setEditModalIsVisible(true)}>Edit</button>
-    <button onClick={() => handleRemoveHabit()}>Delete</button>
-  </div>
-)
 
 export default Habit
 

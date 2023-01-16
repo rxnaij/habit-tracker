@@ -202,8 +202,8 @@ const HabitWrapper = styled.div<HabitWrapperProps>`
   padding: 14px 20px;
   border-radius: 8px;
 
-  background-color: ${props => props.isGoalMet ? '#EDE8B2' : props.theme.background};
-  box-shadow: 0 8px 24px #54534820;
+  background-color: ${props => props.isGoalMet ? "#E5E2C3" : props.theme.background};
+  box-shadow: 0 4px 4px #54534825;
 
   color: ${({ theme }) => theme.textPrimary};
 `

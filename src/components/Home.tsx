@@ -13,9 +13,11 @@ export default function Home() {
     return (
         <ThemeProvider theme={lightColorTheme}>
           <div className="App" >
-            <CreateHabitButton type='button' onClick={() => setCreateModalIsVisible(true)}>
-              Create habit
-            </CreateHabitButton>
+            <FixedShim>
+              <CreateHabitButton type='button' onClick={() => setCreateModalIsVisible(true)}>
+                Create habit
+              </CreateHabitButton>
+            </FixedShim>
             <Header />
             <SectionsWrapper>
               <Section title="Today" timeframe="day" />
@@ -34,18 +36,26 @@ export default function Home() {
     )
   }
 
-  const SectionsWrapper = styled.section`
+const SectionsWrapper = styled.section`
   display: flex;
   flex-direction: column;
   gap: 32px;
 `
 
-const CreateHabitButton = styled.button`
+const FixedShim = styled.div`
   position: fixed;
-  bottom: 32px;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%);
+`
 
-  margin-left: auto;
-  margin-right: auto;
+const CreateHabitButton = styled.button`
+  margin: auto;
 `
 
 const Header = () => {
@@ -57,8 +67,7 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <DateHeader>
-        {/* {date.toLocaleDateString("en-US", { dateStyle: "full" })} */}
-        {day}
+        {day},
         <br />
         {month + " " + date.getDate()}
         <br />

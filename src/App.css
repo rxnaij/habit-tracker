@@ -7,15 +7,24 @@
 
 button {
   border-radius: 8px;
-  border: none;
-  padding: 0.5rem 1.2rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  background-color: inherit;
-  cursor: pointer;
+  border: 2px solid transparent;
+  padding: 1rem 2rem;
 
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  background-color: #E2E0C9;
+  color: #4C4B39;
+  cursor: pointer;
+  
+  font-size: 0.875rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 4%;
+  letter-spacing: 0.04em;
+
 }
 button:hover {
   border-color: #646cff;

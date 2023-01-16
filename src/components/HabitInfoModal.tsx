@@ -41,6 +41,7 @@ export const HabitInfoModal = ({ close, data, count }: HabitInfoModalProps) => {
                     </TitleWrapper>
                     {description && <DescriptionWrapper>{description}</DescriptionWrapper>}
                     <ProgressWrapper>{count} / {goal}</ProgressWrapper>
+                    <p>Current streak: 1 day</p>
                 </HabitContentWrapper>
                 <footer>
                     <button>Edit</button>

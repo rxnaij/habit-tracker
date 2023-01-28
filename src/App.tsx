@@ -4,6 +4,7 @@ import { HabitNode } from './components/Habit'
 import { tasks } from './sampleData'
 import Home from './components/Home'
 import styled from 'styled-components'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 /* State context */
 interface HabitState {
@@ -20,6 +21,13 @@ export function useHabitState() {
   return useContext(HabitStateContext)
 }
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />
+  }
+])
+
 export default function App() {
   const [habits, setHabits] = useState<HabitNode[]>(tasks)
 
@@ -30,7 +38,7 @@ export default function App() {
   return (
     <HabitStateContext.Provider value={{ habits, setHabits, date, setDate }}>
       <AppLayoutWrapper>
-        <Home />
+        <RouterProvider router={router} />
       </AppLayoutWrapper>
     </HabitStateContext.Provider>
   )

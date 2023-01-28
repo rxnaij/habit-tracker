@@ -1,19 +1,28 @@
 import styled, { ThemeProvider } from "styled-components"
+import { Dialog, DialogOverlay, DialogContent } from '@reach/dialog'
+import "@reach/dialog/styles.css";
 
-export const ModalWrapper = styled.div`
+export const ModalWrapper = styled(Dialog)`
   background-color: ${props => props.theme.background};
-  z-index: 10;
-  position: fixed;
+
+  margin: 10vh 0 auto;
+  width: 100%;
+  /* margin-left: 24px;
+  margin-right: 24px; */
+  /* position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
-  left: 0;
+  left: 0; */
+
+
+  border-radius: 16px;
 
   padding: 32px;
 
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 32px;
 
   color: ${props => props.theme.textPrimary};
 

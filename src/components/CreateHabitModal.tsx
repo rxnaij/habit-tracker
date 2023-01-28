@@ -53,7 +53,7 @@ export default function CreateHabitModal({ close }: CreateHabitModalProps) {
 
     return (
         <ThemeProvider theme={lightColorTheme}>
-        <ModalWrapper>
+        <ModalWrapper onDismiss={close}>
             <button onClick={close}>Close</button>
             <h2>new habit</h2>
             <Input>

@@ -147,12 +147,12 @@ const Habit = ({ data, initialCount = 0 }: HabitProps) => {
 
   return (
     <ThemeProvider theme={lightColorTheme}>
-      <HabitWrapper isGoalMet={isGoalMet}>
-        <Title onClick={() => setInfoModalIsVisible(true)}>
+      <HabitWrapper isGoalMet={isGoalMet} onClick={() => setInfoModalIsVisible(true)}>
+        <Title>
           <h4>{name}</h4>
           <span>{count} / {goal}</span>
         </Title>
-        <Modifiers>
+        <Modifiers isGoalMet={isGoalMet}>
           <button onClick={() =>
             setCount(prev => {
               if (prev > 0) {
@@ -202,10 +202,11 @@ const HabitWrapper = styled.div<HabitWrapperProps>`
   padding: 14px 20px;
   border-radius: 8px;
 
-  background-color: ${props => props.isGoalMet ? "#E5E2C3" : props.theme.background};
+  /* --completed: "linear-gradient(1.62deg, #36494e 1.42%, #36494eb2 98.67%)"; */
+  background: ${props => props.isGoalMet ? "linear-gradient(1.62deg, #36494e 1.42%, #36494eb2 98.67%)" : props.theme.background};
   box-shadow: 0 4px 4px #54534825;
 
-  color: ${({ theme }) => theme.textPrimary};
+  color: ${({ isGoalMet, theme }) => isGoalMet ? "#FFFFFF": theme.textPrimary};
 `
 
 const Title = styled.div`
@@ -231,7 +232,11 @@ const Title = styled.div`
   }
 `
 
-const Modifiers = styled.div`
+interface ModifiersProps {
+  isGoalMet: boolean
+}
+
+const Modifiers = styled.div<ModifiersProps>`
   display: flex;
   flex-direction: row;
   gap: 8px;
@@ -241,9 +246,10 @@ const Modifiers = styled.div`
     height: 24px;
     border-radius: 50%;
     padding: 0;
-    color: #36494e;
     background-color: #00000016;
+    color: ${props => props.isGoalMet ? "#fff" : "#36494E"};
   }
+
 `
 
 export default Habit

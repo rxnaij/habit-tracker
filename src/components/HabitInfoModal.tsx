@@ -30,7 +30,9 @@ export const HabitInfoModal = ({ close, data, count }: HabitInfoModalProps) => {
 
     return (
         <ThemeProvider theme={lightColorTheme}>
-            <HabitInfoModalWrapper>
+            <HabitInfoModalWrapper
+                onDismiss={close}
+            >
                 <header>
                     <button onClick={close}>Close</button>
                 </header>

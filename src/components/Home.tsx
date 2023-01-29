@@ -1,19 +1,16 @@
 import { useState } from "react"
-import styled, { ThemeProvider } from "styled-components"
-import { lightColorTheme } from "../colorTheme"
 import CreateHabitModal from "./CreateHabitModal"
-import Habit from "./Habit"
 import { useHabitState } from "../App"
-import VisuallyHidden from './common/VisuallyHidden.jsx'
 import { ButtonGroup } from "./common/Button"
 import HabitItem from "./HabitItem"
-import { useLoaderData } from 'react-router-dom'
+// Styling
+import { lightColorTheme } from "../colorTheme"
+import VisuallyHidden from './common/VisuallyHidden.jsx'
+import styled, { ThemeProvider } from "styled-components"
 
 export default function Home() {
     const [createModalIsVisible, setCreateModalIsVisible] = useState(false)
-
-    const data = useLoaderData()
-    
+  
     return (
         <ThemeProvider theme={lightColorTheme}>
           <div className="App" >

@@ -1,4 +1,4 @@
-import styled, { ThemeProvider } from "styled-components"
+import styled from "styled-components"
 import { Dialog, DialogOverlay, DialogContent } from '@reach/dialog'
 import "@reach/dialog/styles.css";
 

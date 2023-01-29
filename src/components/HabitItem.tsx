@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useHabitState } from '../App'
-import styled, { ThemeProvider } from 'styled-components'
-import { lightColorTheme } from '../colorTheme'
-import { EditHabitModal } from './EditHabitModal'
-import { HabitInfoModal } from './HabitInfoModal'
 import { Link } from 'react-router-dom'
+import { useHabitState } from '../App'
+import { EditHabitModal } from './EditHabitModal'
+import { lightColorTheme } from '../colorTheme'
+import styled, { ThemeProvider } from 'styled-components'
 
 export type Timeframe =
   "day" | "week" | "month" | "year"

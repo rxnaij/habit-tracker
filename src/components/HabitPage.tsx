@@ -8,17 +8,13 @@ import { ButtonGroup } from "./common/Button"
 import { useLoaderData, Link, LoaderFunction } from 'react-router-dom'
 import { tasks as habitData } from "../sampleData"
 
-interface HabitPageProps {
-    initialCount: number
-}
-
-
 export const habitLoader: LoaderFunction = async ({ params }) => {
     return habitData.find(habit => habit.id === params.habitId)
 }
 
 export default function HabitPage() {
 
+    // @TODO: How do we define initialCount?
     const data = useLoaderData() as HabitNode
     const {
         name,

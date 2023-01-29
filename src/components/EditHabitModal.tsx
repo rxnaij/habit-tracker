@@ -1,12 +1,11 @@
 import { useState } from "react"
 import { ThemeProvider } from "styled-components"
 import { useHabitState } from "../App"
-import { lightColorTheme } from "../colorTheme"
 import Input from "./common/Input"
 import RadioButtons from "./common/RadioButtons"
 import { Timeframe } from "./Habit"
 import { ModalWrapper } from "./common/Modal"
-
+import { lightColorTheme } from "../colorTheme"
 
 interface EditHabitModalProps {
     close: () => void

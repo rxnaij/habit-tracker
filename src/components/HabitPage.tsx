@@ -23,21 +23,30 @@ export default function HabitPage() {
     const {
         name,
         description,
-        goal,
         timeframe,
-        progress
+        progress,
+        id
     } = data
 
     const { date } = useHabitState()
 
     // get current day's progress
     // get today's habit count
-    const currentDaysProgress = data.find()
+    const areDatesEqual = (date1: Date, date2: Date) => {
+        return (
+            date1.getMonth() === date2.getMonth()
+            && date1.getDate() === date2.getDate()
+            && date1.getFullYear() === date2.getFullYear()
+        )
+    }
+
+    const currentDaysProgress = progress.dates.find(item => areDatesEqual(item.date, date))
+    const count = currentDaysProgress ? currentDaysProgress.count : 0
+    const goal = currentDaysProgress ? currentDaysProgress.goal : data.goal
 
     return (
         <ThemeProvider theme={lightColorTheme}>
-            <HabitPageWrapper
-            >
+            <HabitPageWrapper>
                 <header>
                     <Link to="/">
                         <button>Close</button>

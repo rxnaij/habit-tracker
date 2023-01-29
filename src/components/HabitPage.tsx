@@ -9,9 +9,7 @@ import { useLoaderData, Link, LoaderFunction } from 'react-router-dom'
 import { tasks as habitData } from "../sampleData"
 
 interface HabitPageProps {
-    close: () => void
-    data: HabitNode
-    count: number
+    initialCount: number
 }
 
 
@@ -32,6 +30,10 @@ export default function HabitPage() {
 
     const { date } = useHabitState()
 
+    // get current day's progress
+    // get today's habit count
+    const currentDaysProgress = data.find()
+
     return (
         <ThemeProvider theme={lightColorTheme}>
             <HabitPageWrapper
@@ -43,10 +45,10 @@ export default function HabitPage() {
                 </header>
                 <HabitContentWrapper>
                     <TitleWrapper>
-                        <h1>Name of Habit: {name}</h1>
-                        <p>Timeframe: {timeframe}</p>
+                        <h1>{name}</h1>
+                        <p>{timeframe}</p>
                     </TitleWrapper>
-                    {<DescriptionWrapper>Description goes here: {description}</DescriptionWrapper>}
+                    {<DescriptionWrapper>{description}</DescriptionWrapper>}
                     <ProgressWrapper>
                         {/* <button onClick={() =>
                             setCount(prev => {
@@ -58,15 +60,15 @@ export default function HabitPage() {
                             })
                         }>
                             -
-                        </button>
+                        </button> */}
                         {count} / {goal}
-                        <button onClick={() =>
+                        {/* <button onClick={() =>
                             setCount(count + 1)
                         }>
                             +
                         </button> */}
                     </ProgressWrapper>
-                    <Streak>Current streak: 1 day</Streak>
+                    <Streak>Current streak: X day</Streak>
                 </HabitContentWrapper>
                 <Footer>
                     <ButtonGroup>

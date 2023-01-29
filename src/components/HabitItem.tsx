@@ -50,9 +50,6 @@ export default function HabitItem ({ data, initialCount = 0 }: HabitProps) {
     id,
     name,
     goal,
-    description,
-    timeframe,
-    progress
   } = data
 
   const { habits, setHabits, date } = useHabitState()

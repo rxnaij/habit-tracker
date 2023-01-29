@@ -2,6 +2,7 @@ import { HabitNode } from "./components/Habit"
 
 export const tasks: HabitNode[] = [
     {
+      id: "0",
       name: "Write a blog post",
       description: "",
       goal: 1,
@@ -12,6 +13,7 @@ export const tasks: HabitNode[] = [
       }
     },
     {
+      id: "1",
       name: "Take a walk",
       description: "Go to the park and back",
       goal: 3,
@@ -22,6 +24,7 @@ export const tasks: HabitNode[] = [
       }
     },
     {
+      id: "2",
       name: "Fix my bed",
       description: "Don't forget to fold lap blanket. Also, this is a long description. We're going to test out how long the text goes in order to see the line height.",
       goal: 1,
@@ -49,6 +52,7 @@ export const tasks: HabitNode[] = [
       }
     },
     {
+      id: "3",
       name: "Cook a healthy meal",
       description: "",
       goal: 3,
@@ -59,6 +63,7 @@ export const tasks: HabitNode[] = [
       }
     },
     {
+      id: "4",
       name: "Read for 20 mins",
       description: "",
       goal: 1,
@@ -69,6 +74,7 @@ export const tasks: HabitNode[] = [
       }
     },
     {
+      id: "5",
       name: "Visit parents",
       description: "",
       goal: 1,

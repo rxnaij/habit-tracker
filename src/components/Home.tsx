@@ -6,9 +6,13 @@ import Habit from "./Habit"
 import { useHabitState } from "../App"
 import VisuallyHidden from './common/VisuallyHidden.jsx'
 import { ButtonGroup } from "./common/Button"
+import HabitItem from "./HabitItem"
+import { useLoaderData } from 'react-router-dom'
 
 export default function Home() {
     const [createModalIsVisible, setCreateModalIsVisible] = useState(false)
+
+    const data = useLoaderData()
     
     return (
         <ThemeProvider theme={lightColorTheme}>
@@ -123,7 +127,11 @@ const Section = ({ title, timeframe }: SectionProps) => {
       const currentDate = item.progress.dates.find(result => result.date.getDate() === date.getDate())
       const initialValue = currentDate?.count
       return (
-        <Habit data={item} key={item.name} initialCount={initialValue} />  // initialCount should sync with the `count` of the habit on the current date
+        <HabitItem 
+          data={item} 
+          key={item.name} 
+          initialCount={initialValue} 
+        />  // initialCount should sync with the `count` of the habit on the current date
       )
     }
   )

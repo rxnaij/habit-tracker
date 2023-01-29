@@ -1,6 +1,8 @@
 import React, { useState, createContext, useContext } from 'react'
 import './App.css'
 import { HabitNode } from './components/Habit'
+import HabitPage, { habitLoader } from './components/HabitPage'
+import { HabitInfoModal } from './components/HabitInfoModal'
 import { tasks } from './sampleData'
 import Home from './components/Home'
 import styled from 'styled-components'
@@ -24,7 +26,15 @@ export function useHabitState() {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />
+    element: <Home />,
+    loader: () => {
+      return tasks
+    }
+  },
+  {
+    path: "habits/:habitId",
+    element: <HabitPage />,
+    loader: habitLoader
   }
 ])
 

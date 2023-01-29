@@ -45,8 +45,9 @@ export interface HabitProps {
   initialCount?: number // Initial value for "count" state
 }
 
-const Habit = ({ data, initialCount = 0 }: HabitProps) => {
+export default function HabitItem ({ data, initialCount = 0 }: HabitProps) {
   const {
+    id,
     name,
     goal,
     description,
@@ -188,7 +189,7 @@ const Habit = ({ data, initialCount = 0 }: HabitProps) => {
           />
         } */}
         {
-          <Link to={`habits/1`}>More info</Link>
+          <Link to={`habits/${id}`}>More info</Link>
         }
       </HabitWrapper>
     </ThemeProvider>
@@ -256,8 +257,6 @@ const Modifiers = styled.div<ModifiersProps>`
   }
 
 `
-
-export default Habit
 
 function replaceElementInArray<T,>(origArray: T[], removeIndex: number, newElem: T) {
   return origArray.map((item, i) => {
